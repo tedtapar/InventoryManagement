@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.example.barclays.inventory_management.exceptions.ItemAlreadyExistException;
 import com.example.barclays.inventory_management.exceptions.ItemNotFoundException;
+import com.example.barclays.inventory_management.exceptions.NotEnoughQuantityException;
 import com.example.barclays.inventory_management.model.InventoryQuantity;
 import com.example.barclays.inventory_management.model.Item;
 import com.example.barclays.inventory_management.model.Report;
@@ -65,10 +66,16 @@ public class InventoryManager {
 			throw new ItemNotFoundException(itemName);
 		}else{
 			Item item = inventoryItemMap.get(key);
-			profit= profit.add((item.getSellPrice().subtract(item.getCostPrice()).multiply(new BigDecimal(quantity))));
+			
 			InventoryQuantity inventoryQunatity=inventoryQuantityMap.get(key);
+			if(inventoryQunatity.getQuantity()<Integer.parseInt(quantity)){
+				throw new NotEnoughQuantityException(itemName);
+			}
+			else{
 			inventoryQunatity.setQuantity(inventoryQunatity.getQuantity()-Integer.parseInt(quantity));
 			inventoryQuantityMap.put(key, inventoryQunatity);
+			profit= profit.add((item.getSellPrice().subtract(item.getCostPrice()).multiply(new BigDecimal(quantity))));
+			}
 			inventoryItemMap.put(key,item);
 		}
 	}

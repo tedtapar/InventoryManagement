@@ -9,9 +9,11 @@ import org.junit.Test;
 import com.example.barclays.inventory_management.businesslogic.InventoryManager;
 import com.example.barclays.inventory_management.exceptions.ItemAlreadyExistException;
 import com.example.barclays.inventory_management.exceptions.ItemNotFoundException;
+import com.example.barclays.inventory_management.exceptions.NotEnoughQuantityException;
 import com.example.barclays.inventory_management.model.InventoryQuantity;
 import com.example.barclays.inventory_management.model.Item;
 import com.example.barclays.inventory_management.model.Report;
+import com.example.barclays.inventory_management.utilities.PrintUtility;
 
 
 public class InventoryManagerTest{
@@ -29,6 +31,8 @@ public class InventoryManagerTest{
 		inventoryManager.updateBuyItem("Food01", "500");
 		inventoryManager.updateBuyItem("Book01", "100");
 		inventoryManager.updateBuyItem("Med01", "100");
+		inventoryManager.updateSellItem("Food01", "1");
+		
 			
 	}
 	@Test
@@ -88,8 +92,13 @@ public class InventoryManagerTest{
 		assertEquals(inventoryQuantity.getQuantity(), new Integer("98"));
 	}
 	
+	@Test(expected=NotEnoughQuantityException.class)
+	public void updateSellItem_NotEnoughAvailable_test() {		
+		inventoryManager.updateSellItem("Tab01", "1000");	
+	}
+	
 	@Test(expected=ItemNotFoundException.class)
-	public void sellItem_NotFound_test() {		
+	public void updateSellItem_NotFound_test() {		
 		inventoryManager.updateSellItem("Dummy01", "100");	
 	}
 	
@@ -108,5 +117,23 @@ public class InventoryManagerTest{
 		inventoryManager.updateSellPriceItem("Dummy01", "100");	
 	}
 	
+	@Test 
+	public void reportItem_checkProfit_test(){
+		Report report = inventoryManager.reportItem();
+		PrintUtility p =new PrintUtility();
+		p.printReport(report);
+		assertEquals(report.getProfit(), new BigDecimal("2.51"));
+		
+	}
 	
+	@Test 
+	public void reportItem_checkProfitAfterSellPriceUpdate_test(){
+		inventoryManager.updateSellPriceItem("Food01", "3.50");
+		inventoryManager.updateSellItem("Food01", "1");
+		Report report = inventoryManager.reportItem();
+		PrintUtility p =new PrintUtility();
+		p.printReport(report);
+		assertEquals(report.getProfit(), new BigDecimal("4.54"));
+		
+	}
 }
