@@ -5,7 +5,15 @@ import java.math.BigDecimal;
 import com.example.barclays.inventory_management.model.Report;
 
 
+/**
+ * @author Ted Tapar
+ * PrintUtility class prints the report to standard out
+ */
 public class PrintUtility {
+	/**
+	 * @param report
+	 * Prints the report in the specified format
+	 */
 	public void printReport(Report report){
 		BigDecimal total=new BigDecimal(0);
 		System.out.println("			INVENTORY REPORT");
@@ -22,8 +30,8 @@ public class PrintUtility {
 		}
 		report.setTotalValue(total);
 		System.out.println("----------------------------------------------------------------------------");
-		System.out.println("Total value                                  			 "+ report.getTotalValue());
-		System.out.println("Profit since previous report                			  "+ report.getProfit());
+		System.out.println("Total value                                  			"+ report.getTotalValue());
+		System.out.println("Profit since previous report                			"+ report.getProfit());
 		System.out.println();
 	}
 }

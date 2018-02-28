@@ -3,8 +3,18 @@ package com.example.barclays.inventory_management.utilities;
 import com.example.barclays.inventory_management.businesslogic.InventoryManager;
 import com.example.barclays.inventory_management.model.Report;
 
+/**
+ * 
+ * @author Ted Tapar
+ * CommandParser class parses the input
+ */
 public class CommandParser {
 	private InventoryManager inventoryManager =new InventoryManager();
+	
+	/** 
+	 * @param command
+	 * Command method parses the input command and uses switch case to call appropriate method
+	 */
 	public void command(String command){
 		
 		String[] commandSplits= command.split("\\s+");

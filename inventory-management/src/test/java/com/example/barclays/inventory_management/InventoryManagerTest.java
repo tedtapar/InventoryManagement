@@ -120,8 +120,8 @@ public class InventoryManagerTest{
 	@Test 
 	public void reportItem_checkProfit_test(){
 		Report report = inventoryManager.reportItem();
-		PrintUtility p =new PrintUtility();
-		p.printReport(report);
+		PrintUtility printUtility =new PrintUtility();
+		printUtility.printReport(report);
 		assertEquals(report.getProfit(), new BigDecimal("2.51"));
 		
 	}
@@ -131,8 +131,8 @@ public class InventoryManagerTest{
 		inventoryManager.updateSellPriceItem("Food01", "3.50");
 		inventoryManager.updateSellItem("Food01", "1");
 		Report report = inventoryManager.reportItem();
-		PrintUtility p =new PrintUtility();
-		p.printReport(report);
+		PrintUtility printUtility =new PrintUtility();
+		printUtility.printReport(report);
 		assertEquals(report.getProfit(), new BigDecimal("4.54"));
 		
 	}

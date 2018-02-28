@@ -1,10 +1,15 @@
 package com.example.barclays.inventory_management.model;
 
+/**
+ * 
+ * @author Ted Tapar
+ * Simple POJO class to save inventory item and it's quantity
+ */
 public class InventoryQuantity {
 	private String itemName;
 	private Integer quantity;
 	
-	
+
 	public InventoryQuantity(String itemName, Integer quantity) {
 		super();
 		this.itemName = itemName;

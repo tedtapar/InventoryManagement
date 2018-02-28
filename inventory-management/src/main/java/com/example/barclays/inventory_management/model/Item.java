@@ -1,5 +1,10 @@
 package com.example.barclays.inventory_management.model;
 
+/**
+ * 
+ * @author Ted Tapar
+ * Simple POJO class to save inventory item information
+ */
 import java.math.BigDecimal;
 
 public class Item {

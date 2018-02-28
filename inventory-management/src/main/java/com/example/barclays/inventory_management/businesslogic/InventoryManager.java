@@ -1,4 +1,5 @@
 package com.example.barclays.inventory_management.businesslogic;
+
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,13 +12,27 @@ import com.example.barclays.inventory_management.model.Item;
 import com.example.barclays.inventory_management.model.Report;
 import com.example.barclays.inventory_management.utilities.ReportHelper;
 
-
+/**
+ * 
+ * @author Ted Tapar
+ * Inventory Manager class consist of all the logic. It has two diffrent maps one
+ * for all the items and for all storing quantities of those items, profit continuously
+ * accumlates the profit as any transaction occurs, reportHelper helps to generate the 
+ * profit information.
+ */
 public class InventoryManager {
 	private Map<String, Item> inventoryItemMap= new HashMap<String, Item>();
 	private Map<String,InventoryQuantity> inventoryQuantityMap = new HashMap<>(); 
 	private BigDecimal profit=new BigDecimal(0);
 	private ReportHelper reportHelper= new ReportHelper();
 	
+	/**
+	 * @param itemName
+	 * @param costPrice
+	 * @param sellPrice
+	 * createItem creates the item and puts it into a map, it throws ItemAlreadyExistException
+	 * if item already exist in the map
+	 */
 	public void createItem(String itemName,String costPrice, String sellPrice ) {
 		Item item= new Item(itemName,new BigDecimal(costPrice),new BigDecimal(sellPrice),0);
 		String key=itemName.trim().toLowerCase();
@@ -27,7 +42,11 @@ public class InventoryManager {
 			inventoryItemMap.put(key, item);
 		}
 	}
-	
+	/**
+	 * @param itemName
+	 * deleteItem deletes the item from the items map and quantity map, it throws
+	 * ItemNotFoundException if item does not exist in the maps
+	 */
 	public void deleteItem(String itemName){
 		String key=itemName.trim().toLowerCase();
 		if(!inventoryItemMap.containsKey(key) || !inventoryQuantityMap.containsKey(key)){
@@ -40,7 +59,12 @@ public class InventoryManager {
 			inventoryItemMap.remove(key);
 		}
 	}
-	
+	/**
+	 * @param itemName
+	 * @param quantity
+	 * updateBuyItem updates the available quantity of items by adding in to the existing .
+	 * quantity. It throws ItemNotFoundException if item does not exist in the maps
+	 */
 	public void updateBuyItem(String itemName, String quantity){
 		String key=itemName.trim().toLowerCase();
 		if(!inventoryItemMap.containsKey(key)){
@@ -60,6 +84,13 @@ public class InventoryManager {
 		}
 	}
 	
+	/**
+	 * @param itemName
+	 * @param quantity
+	 * updateSellItem updates the quantity and calculates the profit. It throws
+	 * NotEnoughQunatityException if the requested quantity is greater then available 
+	 * quantity also it throws ItemNotFoundException if item does not exist in the maps
+	 */
 	public void updateSellItem(String itemName, String quantity){
 		String key=itemName.trim().toLowerCase();
 		if(!inventoryItemMap.containsKey(key) || !inventoryQuantityMap.containsKey(key)){
@@ -80,7 +111,12 @@ public class InventoryManager {
 		}
 	}
 	
-	
+	/**
+	 * @param itemName
+	 * @param newSellPrice
+	 * updateSellPriceItem updates the selling price of item, it throws ItemNotFoundException
+	 *  if item does not exist in the maps
+	 */
 	public void updateSellPriceItem(String itemName, String newSellPrice){
 		String key=itemName.trim().toLowerCase();
 		if(!inventoryItemMap.containsKey(key)){
@@ -92,7 +128,10 @@ public class InventoryManager {
 		}
 	}
 	
-	
+	/**
+	 * @return Report
+	 * reportItem generates the report and returns report object
+	 */
 	public Report reportItem(){	
 		Report report =new Report();
 		report.setProfit(profit.subtract(reportHelper.getSum()));

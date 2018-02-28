@@ -3,6 +3,11 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 
+ * @author Ted Tapar
+ * Simple POJO class to save inventory the generated report information
+ */
 public class Report {
 	private BigDecimal profit;
 
